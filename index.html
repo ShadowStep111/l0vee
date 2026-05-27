@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,7 @@
         }
 
         body, html {
+            background-color: #050505;
             color: #fff;
             font-family: 'Courier New', Courier, monospace;
             min-height: 100vh;
@@ -69,17 +70,16 @@
         /* --- CONTENEDOR PRINCIPAL --- */
         .container {
             text-align: center;
-            /* Se ha eliminado el fondo negro (rgba) para dejarlo transparente */
             background: transparent; 
-            padding: 50px 150px;
+            padding: 40px 30px;
             border: 1px solid rgba(255, 0, 0, 0.15);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-radius: 12px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 0, 0.05);
-            max-width: 600px;
+            max-width: 550px;
             width: 90%;
-            margin: 50px auto;
+            margin: 40px auto;
             opacity: 0;
             transform: translateY(20px);
             transition: all 1s ease 0.5s;
@@ -185,12 +185,25 @@
             50% { opacity: 1; }
         }
 
-        @media (max-width: 360px) {
+        /* --- RESPONSIVE / ADAPTACIÓN DE PANTALLA --- */
+        @media (min-width: 768px) {
             .container {
-                padding: 30px 20px;
+                padding: 50px 80px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 35px 20px;
+                width: 92%;
             }
             h1 {
                 font-size: 1.3rem;
+                letter-spacing: 3px;
+            }
+            .links a {
+                padding: 12px;
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -212,12 +225,12 @@
         <img src="....." alt="Avatar" class="avatar">
         
         <h1>L0vee</h1>
-        <p class="subtitle">"Majesic RP ❤️‍"</p>
+        <p class="subtitle">"Majestic RP ❤️"</p>
         
         <!-- Etiquetas de información -->
         <div class="status-tags">
             <span class="tag">📍 Spain</span>
-            <span class="tag">⏳ 15 yares</span>
+            <span class="tag">⏳ 15 years old</span>
             <span class="tag">🎮 Gamer</span>
         </div>
 
@@ -249,7 +262,7 @@
             const audio = document.getElementById('audio-player');
             audio.volume = 0.4;
             audio.play().catch(error => {
-                console.log("La reproducción automática fue bloqueada por el navegador:", error);
+                console.log("Autoplay was prevented by the browser:", error);
             });
         }
     </script>
