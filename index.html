@@ -1,266 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Bio | @l0vee__</title>
+
     <style>
+
         /* Reset de estilos */
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            cursor: crosshair;
-        }
 
-        body, html {
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+
+
+
+        body {
+
+            background-color: #000;
+
             color: #fff;
+
             font-family: 'Courier New', Courier, monospace;
-            min-height: 100vh;
+
+            height: 100vh;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
-            overflow-x: hidden;
-        }
 
-        /* --- PANTALLA DE ENTRADA --- */
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease, visibility 1s;
-        }
-
-        #overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .enter-text {
-            font-size: 1.1rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            animation: pulse 2s infinite;
-            color: #ff0000;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        /* --- FONDO DE VIDEO --- */
-        #video-background {
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
-            z-index: -1;
-            filter: brightness(25%) grayscale(70%);
-            object-fit: cover;
-        }
-
-        /* --- CONTENEDOR PRINCIPAL --- */
-        .container {
-            text-align: center;
-            background: transparent; 
-            padding: 40px 100px;
-            border: 1px solid rgba(255, 0, 0, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 12px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 0, 0.05);
-            max-width: 550px;
-            width: 95%;
-            margin: 40px auto;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 1s ease 0.5s;
-        }
-
-        body.loaded .container {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Avatar corregido */
-        .avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            border: 2px solid #ff0000;
-            margin-bottom: 15px;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
-            object-fit: cover;
-            display: inline-block;
             overflow: hidden;
-            background: transparent;
+
         }
 
-        h1 { 
-            font-size: 1.6rem; 
-            letter-spacing: 5px; 
-            margin-bottom: 8px; 
-            text-transform: uppercase;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+
+
+        /* Fondo de video */
+
+        #video-background {
+
+            position: fixed;
+
+            right: 0;
+
+            bottom: 0;
+
+            min-width: 100%;
+
+            min-height: 100%;
+
+            z-index: -1;
+
+            filter: brightness(40%) grayscale(50%); /* Ajusta el look */
+
+            object-fit: cover;
+
         }
 
-        .subtitle { 
-            font-size: 0.8rem; 
-            color: #ff0000; 
-            margin-bottom: 20px; 
-            letter-spacing: 2px;
-        }
 
-        /* --- SECCIONES PERSONALES --- */
-        .divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
-            margin: 20px 0;
-        }
 
-        .about-section {
-            font-size: 0.8rem;
-            color: #bbb;
-            line-height: 1.6;
-            margin-bottom: 15px;
+        /* Contenedor Principal */
+
+        .container {
+
             text-align: center;
+
+            background: rgba(0, 0, 0, 0.6);
+
+            padding: 40px;
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            backdrop-filter: blur(5px);
+
+            border-radius: 5px;
+
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+
         }
 
-        /* Configuración para que las etiquetas se mantengan estiradas en una sola línea horizontal */
-        .status-tags {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            width: 100%;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 5px 0;
-        }
 
-        /* Ocultar barra de scroll en las etiquetas si llega a desbordar en pantallas ultra pequeñas */
-        .status-tags::-webkit-scrollbar {
-            display: none;
-        }
 
-        .tag {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            color: #aaa;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            display: inline-block;
-        }
+        h1 { font-size: 1.5rem; letter-spacing: 5px; margin-bottom: 10px; text-transform: uppercase; }
 
-        /* --- ENLACES --- */
-        .links {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;        
-            margin: 0 auto;
-            width: 100%;
-        }
+        p { font-size: 0.8rem; color: #888; margin-bottom: 20px; }
+
+
+
+        /* Enlaces */
 
         .links a {
+
             color: #fff;
+
             text-decoration: none;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            padding: 14px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
+
+            margin: 0 10px;
+
+            font-size: 0.9rem;
+
+            transition: 0.3s;
+
         }
 
-        .links a:hover { 
-            color: #ff0000; 
-            border-color: #ff0000;
-            background: rgba(255, 0, 0, 0.03);
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.1);
-            transform: scale(1.02);
-        }
+
+
+        .links a:hover { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+
+
+
+        /* Reproductor invisible/música */
 
         #audio-player { display: none; }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 440px) {
-            .tag {
-                font-size: 0.65rem;
-                padding: 5px 8px;
-            }
-            h1 {
-                font-size: 1.4rem;
-            }
-        }
     </style>
+
 </head>
+
 <body>
 
-    <div id="overlay" onclick="startProfile()">
-        <div class="enter-text">Click to enter</div>
-    </div>
 
-    <video autoplay muted loop id="video-background" playsinline>
+
+    <!-- Video de fondo (usa un link directo a un .mp4) -->
+
+    <video autoplay muted loop id="video-background">
+
         <source src="video.mp4" type="video/mp4">
+
     </video>
 
+
+
     <div class="container">
-        <img src="tu-enlace-de-imagen.png" alt="" class="avatar">
-        
+
         <h1>L0vee</h1>
-        <p class="subtitle">"Majestic RP ❤️"</p>
+
+        <p>"I know what i do"</p>
+
         
-        <div class="status-tags">
-            <span class="tag">📍 Spain</span>
-            <span class="tag">⏳ 15 years old</span>
-            <span class="tag">🎮 Gamer</span>
-        </div>
-
-        <div class="about-section">...</div>
-
-        <div class="divider"></div>
 
         <div class="links">
-            <a href="https://discord.com/users/975051111427891230" target="_blank">Discord</a>
-            <a href="https://www.instagram.com/gleb_boikoo/" target="_blank">Instagram</a>
-            <a href="https://steamcommunity.com/profiles/76561199400300651/" target="_blank">Steam</a>
-            <a href="https://twitch.tv/l0vee1/" target="_blank">Twitch</a>
+
+            <a href="https://discord.com/users/975051111427891230">Discord</a>
+
+            <a href="https://www.instagram.com/gleb_boikoo/">Instagram</a>
+
+            <a href="https://steamcommunity.com/profiles/76561199400300651/">Steam</a>
+
+            <a href="https://twitch.tv/l0vee1/">Twitch</a>
+
         </div>
+
+
+
+        <!-- Instrucción para la música -->
+
+        <p style="margin-top: 20px; font-size: 0.6rem;">Click anywhere to play audio</p>
+
     </div>
 
+
+
+    <!-- Audio (Usa un link directo de Dropbox o Discord) -->
+
     <audio id="audio-player" loop>
+
         <source src="https://files.catbox.moe/mlp0fn.mp3" type="audio/mpeg">
+
     </audio>
 
-    <script>
-        function startProfile() {
-            document.getElementById('overlay').classList.add('hidden');
-            document.body.classList.add('loaded');
-            
-            const audio = document.getElementById('audio-player');
-            audio.volume = 0.4;
-            audio.play().catch(error => {
-                console.log("Autoplay was prevented by the browser:", error);
-            });
-        }
-    </script>
+
+
+    <script src="script.js"></script>
+
 </body>
+
 </html>
