@@ -10,6 +10,7 @@
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
+            cursor: crosshair; /* El cursor vuelve a ser la cruz original */
         }
 
         body, html {
@@ -21,42 +22,6 @@
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
-        }
-
-        /* --- CURSOR PERSONALIZADO (Solo para ordenadores) --- */
-        @media (pointer: fine) {
-            body, html {
-                cursor: none; /* Oculta el cursor nativo */
-            }
-            #custom-cursor {
-                width: 8px;
-                height: 8px;
-                background: #ff0000;
-                border-radius: 50%;
-                position: fixed;
-                pointer-events: none;
-                z-index: 9999;
-                transform: translate(-50%, -50%);
-                display: block;
-            }
-            #custom-cursor-blur {
-                width: 24px;
-                height: 24px;
-                border: 1px solid #ff0000;
-                border-radius: 50%;
-                position: fixed;
-                pointer-events: none;
-                z-index: 9998;
-                transform: translate(-50%, -50%);
-                transition: transform 0.08s ease-out;
-                opacity: 0.5;
-                display: block;
-            }
-        }
-
-        /* Ocultar cursores en pantallas táctiles por defecto */
-        #custom-cursor, #custom-cursor-blur {
-            display: none;
         }
 
         /* --- PANTALLA DE ENTRADA --- */
@@ -72,7 +37,6 @@
             justify-content: center;
             align-items: center;
             transition: opacity 1s ease, visibility 1s;
-            cursor: pointer;
         }
 
         #overlay.hidden {
@@ -106,13 +70,14 @@
         /* --- CONTENEDOR PRINCIPAL --- */
         .container {
             text-align: center;
-            background: rgba(5, 5, 5, 0.55);
+            /* Se ha eliminado el fondo negro (rgba) para dejarlo transparente */
+            background: transparent; 
             padding: 40px 30px;
             border: 1px solid rgba(255, 0, 0, 0.15);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-radius: 12px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(255, 0, 0, 0.05);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 0, 0.05);
             max-width: 420px;
             width: 90%;
             margin: 40px auto;
@@ -165,7 +130,7 @@
             color: #bbb;
             line-height: 1.6;
             margin-bottom: 15px;
-            text-align: center; /* Centrado mejora la lectura en móviles */
+            text-align: center;
         }
 
         .status-tags {
@@ -197,7 +162,7 @@
             text-decoration: none;
             font-size: 0.8rem;
             letter-spacing: 2px;
-            padding: 14px; /* Un poco más grande para facilitar el toque con el dedo */
+            padding: 14px;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 6px;
@@ -205,16 +170,13 @@
             text-transform: uppercase;
         }
 
-        /* Efectos Hover (Solo activos en dispositivos con ratón) */
-        @media (pointer: fine) {
-            .links a:hover { 
-                color: #ff0000; 
-                border-color: #ff0000;
-                background: rgba(255, 0, 0, 0.03);
-                text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
-                box-shadow: 0 0 15px rgba(255, 0, 0, 0.1);
-                transform: scale(1.02);
-            }
+        .links a:hover { 
+            color: #ff0000; 
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.03);
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.1);
+            transform: scale(1.02);
         }
 
         #audio-player { display: none; }
@@ -224,7 +186,6 @@
             50% { opacity: 1; }
         }
 
-        /* Ajustes específicos para pantallas muy pequeñas */
         @media (max-width: 360px) {
             .container {
                 padding: 30px 20px;
@@ -236,10 +197,6 @@
     </style>
 </head>
 <body>
-
-    <!-- Cursores personalizados -->
-    <div id="custom-cursor"></div>
-    <div id="custom-cursor-blur"></div>
 
     <!-- Pantalla de Entrada -->
     <div id="overlay" onclick="startProfile()">
@@ -287,32 +244,6 @@
     </audio>
 
     <script>
-        const cursor = document.getElementById('custom-cursor');
-        const cursorBlur = document.getElementById('custom-cursor-blur');
-
-        // Solo activa la lógica del ratón si el dispositivo cuenta con uno apuntando (no táctil puro)
-        if (window.matchMedia("(pointer: fine)").matches) {
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-                
-                cursorBlur.style.left = e.clientX + 'px';
-                cursorBlur.style.top = e.clientY + 'px';
-            });
-
-            const links = document.querySelectorAll('a, #overlay');
-            links.forEach(link => {
-                link.addEventListener('mouseenter', () => {
-                    cursorBlur.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                    cursorBlur.style.borderColor = '#ffffff';
-                });
-                link.addEventListener('mouseleave', () => {
-                    cursorBlur.style.transform = 'translate(-50%, -50%) scale(1)';
-                    cursorBlur.style.borderColor = '#ff0000';
-                });
-            });
-        }
-
         // Función para quitar la pantalla de entrada, mostrar contenido y reproducir audio
         function startProfile() {
             document.getElementById('overlay').classList.add('hidden');
