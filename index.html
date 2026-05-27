@@ -10,7 +10,7 @@
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
-            cursor: crosshair; /* El cursor vuelve a ser la cruz original */
+            cursor: crosshair;
         }
 
         body, html {
@@ -71,14 +71,14 @@
         .container {
             text-align: center;
             background: transparent; 
-            padding: 40px 30px;
+            padding: 40px 20px;
             border: 1px solid rgba(255, 0, 0, 0.15);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-radius: 12px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 0, 0.05);
             max-width: 550px;
-            width: 90%;
+            width: 95%;
             margin: 40px auto;
             opacity: 0;
             transform: translateY(20px);
@@ -90,7 +90,7 @@
             transform: translateY(0);
         }
 
-        /* Avatar */
+        /* Avatar corregido */
         .avatar {
             width: 90px;
             height: 90px;
@@ -100,6 +100,8 @@
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
             object-fit: cover;
             display: inline-block;
+            overflow: hidden;
+            background: transparent;
         }
 
         h1 { 
@@ -132,21 +134,33 @@
             text-align: center;
         }
 
+        /* Configuración para que las etiquetas se mantengan estiradas en una sola línea horizontal */
         .status-tags {
             display: flex;
+            flex-direction: row;
             justify-content: center;
-            gap: 8px;
+            align-items: center;
+            gap: 10px;
             margin-bottom: 20px;
-            flex-wrap: wrap;
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 5px 0;
+        }
+
+        /* Ocultar barra de scroll en las etiquetas si llega a desbordar en pantallas ultra pequeñas */
+        .status-tags::-webkit-scrollbar {
+            display: none;
         }
 
         .tag {
             background: rgba(255, 255, 255, 0.05);
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 4px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: #aaa;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            display: inline-block;
         }
 
         /* --- ENLACES --- */
@@ -154,6 +168,9 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            max-width: 320px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .links a {
@@ -185,61 +202,44 @@
             50% { opacity: 1; }
         }
 
-        /* --- RESPONSIVE / ADAPTACIÓN DE PANTALLA --- */
-        @media (min-width: 768px) {
-            .container {
-                padding: 50px 80px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .container {
-                padding: 35px 20px;
-                width: 92%;
+        /* --- RESPONSIVE --- */
+        @media (max-width: 440px) {
+            .tag {
+                font-size: 0.65rem;
+                padding: 5px 8px;
             }
             h1 {
-                font-size: 1.3rem;
-                letter-spacing: 3px;
-            }
-            .links a {
-                padding: 12px;
-                font-size: 0.75rem;
+                font-size: 1.4rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Pantalla de Entrada -->
     <div id="overlay" onclick="startProfile()">
         <div class="enter-text">Click to enter</div>
     </div>
 
-    <!-- Fondo de Video -->
     <video autoplay muted loop id="video-background" playsinline>
         <source src="video.mp4" type="video/mp4">
     </video>
 
-    <!-- Perfil Principal -->
     <div class="container">
-        <img src="....." alt="Avatar" class="avatar">
+        <img src="tu-enlace-de-imagen.png" alt="" class="avatar">
         
         <h1>L0vee</h1>
         <p class="subtitle">"Majestic RP ❤️"</p>
         
-        <!-- Etiquetas de información -->
         <div class="status-tags">
             <span class="tag">📍 Spain</span>
             <span class="tag">⏳ 15 years old</span>
             <span class="tag">🎮 Gamer</span>
         </div>
 
-        <!-- Biografía breve -->
         <div class="about-section">...</div>
 
         <div class="divider"></div>
 
-        <!-- Redes Sociales / Enlaces -->
         <div class="links">
             <a href="https://discord.com/users/975051111427891230" target="_blank">Discord</a>
             <a href="https://www.instagram.com/gleb_boikoo/" target="_blank">Instagram</a>
@@ -248,13 +248,11 @@
         </div>
     </div>
 
-    <!-- Música de fondo -->
     <audio id="audio-player" loop>
         <source src="https://files.catbox.moe/mlp0fn.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // Función para quitar la pantalla de entrada, mostrar contenido y reproducir audio
         function startProfile() {
             document.getElementById('overlay').classList.add('hidden');
             document.body.classList.add('loaded');
